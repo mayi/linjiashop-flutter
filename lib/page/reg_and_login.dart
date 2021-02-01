@@ -17,22 +17,21 @@ import 'package:flutter_app/view/theme_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../common.dart';
 
-
 class RegPageAndLoginPage extends StatefulWidget {
   @override
   _RegAndLoginState createState() => _RegAndLoginState();
 }
 
 class _RegAndLoginState extends State<RegPageAndLoginPage> {
-  TextEditingController _phoneNum = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _phoneNum = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   ///用户账号
-  String _userName = "";
+  String _userName = '';
 
   ///用户密码
-  String _pwd = "";
-  String _smsCode = "";
+  String _pwd = '';
+  String _smsCode = '';
   bool isSendSms = false;
 
   bool _isObscure = true;
@@ -43,90 +42,85 @@ class _RegAndLoginState extends State<RegPageAndLoginPage> {
     AppSize.init(context);
 
     return Scaffold(
-      appBar: MyAppBar(
-        preferredSize: Size.fromHeight(AppSize.height(160)),
-        child: CommonBackTopBar(
-            title: "登录注册", onBack: () => Navigator.pop(context)),
-      ),
-      body:
-           Container(
-                color: ThemeColor.appBg,
-                child: SingleChildScrollView(
+        appBar: MyAppBar(
+          preferredSize: Size.fromHeight(AppSize.height(160)),
+          child: CommonBackTopBar(
+              title: '登录注册', onBack: () => Navigator.pop(context)),
+        ),
+        body: Container(
+          color: ThemeColor.appBg,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  height: AppSize.height(450),
+                  child: const Image(
+                      fit: BoxFit.fill, image: AssetImage('images/banner.jpg')),
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      right: AppSize.width(60), left: AppSize.width(60)),
+                  decoration: ThemeDecoration.card,
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        height: AppSize.height(450),
-                        child: Image(
-                            fit: BoxFit.fill,
-                            image: AssetImage("images/banner.jpg")),
+                      TextField(
+                        keyboardType: TextInputType.phone,
+                        controller: _phoneNum,
+                        maxLines: 1,
+                        maxLength: 11,
+                        decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.phone_iphone),
+                            hintText: '请输入手机号',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: AppSize.height(30))),
+                        onChanged: (String inputStr) {
+                          print('username   ' + inputStr);
+                          _userName = inputStr;
+                        },
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            right: AppSize.width(60), left: AppSize.width(60)),
-                        decoration: ThemeDecoration.card,
-                        child: Column(
-                          children: <Widget>[
-                            TextField(
-                              keyboardType: TextInputType.phone,
-                              controller: _phoneNum,
-                              maxLines: 1,
-                              maxLength: 11,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.phone_iphone),
-                                  hintText: "请输入手机号",
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: AppSize.height(30))),
-                              onChanged: (inputStr) {
-                                print("username   " + inputStr);
-                                _userName = inputStr;
-                              },
-                            ),
-                            _buildSmsInputOrPasswordInput(),
-                            InkWell(
-                              onTap: () {
-                                isSendSms
-                                    ? loadLoginOrReg(_userName, _smsCode)
-                                    : loadLoginByPass(_userName, _pwd);
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                height: AppSize.height(100),
-                                padding: EdgeInsets.only(
-                                    right: AppSize.width(60),
-                                    left: AppSize.width(60)),
-                                child: Center(
-                                    child: Text(
-                                      '登录',
-                                      style: TextStyle(
-                                          fontSize: AppSize.sp(45),
-                                          color: Colors.white),
-                                    )),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      ThemeColor.loignColor,
-                                      ThemeColor.loignColor
-                                    ]),
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: Offset(1.0, 5.0),
-                                        color: ThemeColor.loignColor,
-                                        blurRadius: 5.0,
-                                      )
-                                    ]),
-                              ),
-                            ),
-                            _buildSmsOrPass(),
-                          ],
+                      _buildSmsInputOrPasswordInput(),
+                      InkWell(
+                        onTap: () {
+                          isSendSms
+                              ? loadLoginOrReg(_userName, _smsCode)
+                              : loadLoginByPass(_userName, _pwd);
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: AppSize.height(100),
+                          padding: EdgeInsets.only(
+                              right: AppSize.width(60),
+                              left: AppSize.width(60)),
+                          child: Center(
+                              child: Text(
+                            '登录',
+                            style: TextStyle(
+                                fontSize: AppSize.sp(45), color: Colors.white),
+                          )),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                ThemeColor.loignColor,
+                                ThemeColor.loignColor
+                              ]),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                const BoxShadow(
+                                  offset: Offset(1.0, 5.0),
+                                  color: ThemeColor.loignColor,
+                                  blurRadius: 5.0,
+                                )
+                              ]),
                         ),
                       ),
+                      _buildSmsOrPass(),
                     ],
                   ),
                 ),
-           )
-
-    );
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _buildSmsInputOrPasswordInput() {
@@ -174,8 +168,8 @@ class _RegAndLoginState extends State<RegPageAndLoginPage> {
               maxLength: 32,
               obscureText: _isObscure,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock_outline),
-                hintText: "请输入登录密码",
+                prefixIcon: const Icon(Icons.lock_outline),
+                hintText: '请输入登录密码',
                 contentPadding:
                     EdgeInsets.symmetric(vertical: AppSize.height(30)),
                 suffixIcon: IconButton(
@@ -192,8 +186,8 @@ class _RegAndLoginState extends State<RegPageAndLoginPage> {
                       });
                     }),
               ),
-              onChanged: (inputStr) {
-                print("password   " + inputStr);
+              onChanged: (String inputStr) {
+                print('password   ' + inputStr);
                 _pwd = inputStr;
               },
             ),
@@ -204,7 +198,7 @@ class _RegAndLoginState extends State<RegPageAndLoginPage> {
    * 返回用户或短信登录
    */
   Widget _buildSmsOrPass() {
-    String buttonName = isSendSms ? '用户名密码登录':'手机短信登录/注册';
+    final String buttonName = isSendSms ? '用户名密码登录' : '手机短信登录/注册';
     return InkWell(
       onTap: () {
         setState(() {
@@ -235,43 +229,39 @@ class _RegAndLoginState extends State<RegPageAndLoginPage> {
     );
   }
 
-  void loadLoginByPass(String userName, String password) async {
+  Future<void> loadLoginByPass(String userName, String password) async {
     final LoginEntity entity = await LoginDao.fetch(userName, password);
     if (entity?.userModel != null) {
       saveUserInfo(entity.userModel);
-
     } else {
       DialogUtil.buildToast(entity.msgModel.msg);
     }
   }
 
-  void loadLoginOrReg(String userName, String smsCode) async {
-    LoginEntity entity = await LoginRegDao.fetch(userName, smsCode);
+  Future<void> loadLoginOrReg(String userName, String smsCode) async {
+    final LoginEntity entity = await LoginRegDao.fetch(userName, smsCode);
     if (entity?.userModel != null) {
       saveUserInfo(entity.userModel);
-
     } else {
-      if(entity?.msgModel!=null) {
+      if (entity?.msgModel != null) {
         DialogUtil.buildToast(entity.msgModel.msg);
-      }else{
-        DialogUtil.buildToast("登录失败");
+      } else {
+        DialogUtil.buildToast('登录失败');
       }
     }
   }
 
-  loadUserInfo(String token) async {
-    UserEntity entity = await UserDao.fetch(token);
+  Future<void> loadUserInfo(String token) async {
+    final UserEntity entity = await UserDao.fetch(token);
     if (entity?.userInfoModel != null) {
-      AppConfig.gender=entity.userInfoModel.gender;
-      AppConfig.avatar=entity.userInfoModel.avatar;
-      AppConfig.mobile=entity.userInfoModel.mobile;
-      AppConfig.nickName=entity.userInfoModel.nickName;
+      AppConfig.gender = entity.userInfoModel.gender;
+      AppConfig.avatar = entity.userInfoModel.avatar;
+      AppConfig.mobile = entity.userInfoModel.mobile;
+      AppConfig.nickName = entity.userInfoModel.nickName;
 
-
-      DialogUtil.buildToast("登录成功~");
+      DialogUtil.buildToast('登录成功');
       Navigator.pop(context);
       eventBus.fire(UserLoggedInEvent("sucuss"));
-
     } else {
       DialogUtil.buildToast(entity.msgModel.msg);
     }
@@ -280,11 +270,11 @@ class _RegAndLoginState extends State<RegPageAndLoginPage> {
   /**
    * 存储用户信息
    */
-  void saveUserInfo(UserModel userModel) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("token", userModel.token);
+  Future<void> saveUserInfo(UserModel userModel) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', userModel.token);
     AppConfig.isUser = false;
-    AppConfig.token =userModel.token;
+    AppConfig.token = userModel.token;
     loadUserInfo(userModel.token);
   }
 }
