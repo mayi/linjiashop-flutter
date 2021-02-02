@@ -357,9 +357,9 @@ class _SettingPageState extends State<SettingPage> {
 
         child:Material(
           child: Ink(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.blue,
-              borderRadius: BorderRadius.all(new Radius.circular(25.0)),
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
             ),
             child: InkWell(
               borderRadius: BorderRadius.circular(25.0),
@@ -370,8 +370,8 @@ class _SettingPageState extends State<SettingPage> {
                 width: 300.0,
                 height: 50.0,
                 //设置child 居中
-                alignment: Alignment(0, 0),
-                child: Text("退出登录",style: TextStyle(color: Colors.white,fontSize: 16.0),),
+                alignment: const Alignment(0, 0),
+                child: Text('退出登录', style: TextStyle(color: Colors.white,fontSize: 16.0),),
               ),
             ),
           ),
@@ -387,7 +387,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget _buildIsHasHead() {
     if (AppConfig.avatar.isEmpty) {
       return Image.asset(
-        "images/icon_user.png",
+        'images/icon_user.png',
         width: 28.0,
         height: 28.0,
       );
@@ -407,7 +407,7 @@ class _SettingPageState extends State<SettingPage> {
               barrierDismissible: true,
               context: context,
               builder: (BuildContext context) {
-                var list = List();
+                final List<String> list = [];
                 list.add('拍照');
                 list.add('相册');
                 return CommonBottomSheet(
@@ -489,21 +489,21 @@ class _SettingPageState extends State<SettingPage> {
     );
 
 
-    Luban.compressImage(compressObject).then((_path) {
+    Luban.compressImage(compressObject).then((String _path) {
       compressedFile = File(_path);
       showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
             return LoadingDialog(
-              text: "图片上传中…",
+              text: '图片上传中…',
             );
           });
-      String strContent = getImageBase64(compressedFile);
-      Map<String, dynamic> param = {
-        "base64": strContent,
-        "name": "logo.jpg",
-        "type": "image/jpeg"
+      final String strContent = getImageBase64(compressedFile);
+      final Map<String, dynamic> param = {
+        'base64': strContent,
+        'name': 'logo.jpg',
+        'type': 'image/jpeg'
       };
       loadSave(param,AppConfig.token);
     });
